@@ -20,8 +20,8 @@ services:
     app:
         container_name: challenge-app
         build:
-            context: ./docker/dev/php
-            dockerfile: Dockerfile
+            context: .  # Cambia esto a la raíz del proyecto
+            dockerfile: docker/dev/php/Dockerfile
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
