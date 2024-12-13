@@ -24,16 +24,12 @@ RUN apt-get update \
     && apt-get update
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd \
+RUN docker-php-ext-install pdo_mysql exif pcntl gd \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install mysqli \
-    && docker-php-ext-install pcntl \
     && docker-php-ext-install zip \
-    && docker-php-ext-install intl \
-    && docker-php-ext-install bcmath \
-    && docker-php-ext-install gmp \
     && docker-php-source delete
 
 RUN git config --global --add safe.directory /var/www/html
