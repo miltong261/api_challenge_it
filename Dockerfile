@@ -44,7 +44,7 @@ RUN chmod -R ug+w /var/www/storage && chmod -R 0777 storage . -R
 
 # Copy nginx/php/supervisor configs
 RUN cp docker/prod/php.ini /usr/local/etc/php/conf.d/app.ini
-RUN cp docker/prod/nginx.conf /etc/nginx/sites-enabled/default
+RUN cp docker/prod/nginx/default.conf /etc/nginx/sites-enabled/default
 
 # PHP-FPM configs
 RUN sed -i "s/pm = dynamic/pm = static/g" /usr/local/etc/php-fpm.d/www.conf

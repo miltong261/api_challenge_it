@@ -2,7 +2,7 @@ services:
     nginx:
         container_name: challenge-nginx
         build:
-            context: docker/dev/nginx
+            context: docker/prod/nginx
             dockerfile: Dockerfile
             args:
                 - USER=${USER:-challenge}
