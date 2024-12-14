@@ -1,8 +1,5 @@
 FROM php:8.2-fpm
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ=UTC
-
 # Set working directory
 WORKDIR /var/www
 
@@ -26,15 +23,11 @@ RUN apt-get update && apt-get install -y \
     lsof
 
 # Install PHP extensions
-RUN docker-php-ext-install -j$(nproc) exif pcntl bcmath gd mysqli pcntl zip intl gmp \
+RUN docker-php-ext-install -j$(nproc) pdo_mysql exif pcntl bcmath gd mysqli pcntl zip intl gmp \
     && docker-php-ext-configure gd \
     && docker-php-source delete
 
-RUN curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
-        && curl -sLS https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
-        && apt-get -y autoremove \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+COPY --from=composer:2.6.6 /usr/bin/composer /usr/bin/composer
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -47,10 +40,9 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 COPY --chown=www:www-data . /var/www
 
 # add root to www group
-RUN chmod -R ug+w /var/www/storage
+RUN chmod -R ug+w /var/www/storage && chmod -R 0777 storage . -R
 
 # Copy nginx/php/supervisor configs
-RUN cp docker/prod/supervisor.conf /etc/supervisord.conf
 RUN cp docker/prod/php.ini /usr/local/etc/php/conf.d/app.ini
 RUN cp docker/prod/nginx.conf /etc/nginx/sites-enabled/default
 
@@ -67,4 +59,5 @@ RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
 RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x /var/www/docker/prod/run.sh
 
+EXPOSE 80
 ENTRYPOINT ["/var/www/docker/prod/run.sh"]

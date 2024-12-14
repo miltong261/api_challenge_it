@@ -1,0 +1,30 @@
+# .dockerignore for a laravel project
+
+# Ignore Laravel development files and directories
+/node_modules
+/vendor
+/.env
+/.env.*
+/.idea
+/.git
+/.gitignore
+/.gitattributes
+/.styleci.yml
+/psalm.xml
+/phpstan.neon
+/bitbucket-pipelines.yml
+/.editorconfig
+
+# Ignore Docker-specific files
+/.dockerignore
+/docker-compose.yml
+/Dockerfile
+
+# Ignore OS and text editor-specific files
+Thumbs.db
+.DS_Store
+.vscode
+
+# Ignore testing files
+/phpunit.xml
+/tests
