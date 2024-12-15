@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+        context: .
+        dockerfile: docker/prod2/Dockerfile
+    image: flickview:latest
+    ports:
+      - '80:80'
+    volumes:
+      - .env:/var/www/html/.env
