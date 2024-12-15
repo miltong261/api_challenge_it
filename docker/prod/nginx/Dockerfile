@@ -15,3 +15,4 @@ RUN sed -i "s/user  nginx/user challenge/g" /etc/nginx/nginx.conf
 
 ADD default.conf /etc/nginx/conf.d/
 RUN mkdir -p /var/www/html
+RUN mkdir -p /etc/nginx/ssl
